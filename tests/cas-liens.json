@@ -1,0 +1,214 @@
+{
+ "_": "Cas partagés : la page publique rejoindre.html (dépôt des versions) et le noyau d’Ahome (lien d’invitation) doivent donner exactement ces verdicts. Une copie identique vit dans chaque dépôt ; un test la compare quand les deux sont présents. « ajout »/« fois » : la chaîne « ajout » répétée « fois » fois est ajoutée au fragment.",
+ "cas": [
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": true,
+   "pourquoi": "la forme exacte"
+  },
+  {
+   "fragment": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": true,
+   "pourquoi": "le plus long possible (261 caractères)"
+  },
+  {
+   "fragment": "abcd.ef-h.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.ij_l.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": true,
+   "pourquoi": "ids de 4 caractères, avec - et _"
+  },
+  {
+   "fragment": "ABCD.EFGH.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.IJKL.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": true,
+   "pourquoi": "majuscules dans les ids"
+  },
+  {
+   "fragment": "",
+   "valide": false,
+   "pourquoi": "vide"
+  },
+  {
+   "fragment": "x",
+   "valide": false,
+   "pourquoi": "un caractère"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg ",
+   "valide": false,
+   "pourquoi": "espace final"
+  },
+  {
+   "fragment": " h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "espace initial"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg\n",
+   "valide": false,
+   "pourquoi": "saut de ligne"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg\t",
+   "valide": false,
+   "pourquoi": "tabulation"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg\u0000",
+   "valide": false,
+   "pourquoi": "NUL"
+  },
+  {
+   "fragment": "\"h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg\"",
+   "valide": false,
+   "pourquoi": "guillemets"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg/",
+   "valide": false,
+   "pourquoi": "barre finale"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg.extra",
+   "valide": false,
+   "pourquoi": "sixième partie"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01",
+   "valide": false,
+   "pourquoi": "empreinte absente"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "secret de 42 caractères"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2UA.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "secret de 44 caractères"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2v.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "secret en base64 non canonique (bits de fin non nuls)"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbh",
+   "valide": false,
+   "pourquoi": "empreinte en base64 non canonique"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbB",
+   "valide": false,
+   "pourquoi": "empreinte en base64 non canonique (bit faible)"
+  },
+  {
+   "fragment": "h1a.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "id de 3 caractères"
+  },
+  {
+   "fragment": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "id de 65 caractères"
+  },
+  {
+   "fragment": "h1a%62.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "encodage pour-cent"
+  },
+  {
+   "fragment": "h1ab/.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "barre dans un id"
+  },
+  {
+   "fragment": "h1ab+.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "plus dans un id"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c+/.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "base64 standard (+ et /) au lieu de base64url"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg==",
+   "valide": false,
+   "pourquoi": "bourrage ="
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01\" --inspect=9229 \"x.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "injection d’options"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg\" --remote-debugging-port=9222",
+   "valide": false,
+   "pourquoi": "injection d’options en fin"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg#h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "deux fragments"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg&x=1",
+   "valide": false,
+   "pourquoi": "paramètre ajouté"
+  },
+  {
+   "fragment": "h1аbc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "homoglyphe cyrillique"
+  },
+  {
+   "fragment": "h1abc．inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "point pleine chasse"
+  },
+  {
+   "fragment": "h1a​bc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "espace de largeur nulle"
+  },
+  {
+   "fragment": "h1é5c.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "lettre accentuée"
+  },
+  {
+   "fragment": "ahome://rejoindre#h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "le lien entier au lieu du fragment"
+  },
+  {
+   "fragment": "<script>alert(1)</script>",
+   "valide": false,
+   "pourquoi": "balise"
+  },
+  {
+   "fragment": "javascript:alert(1)",
+   "valide": false,
+   "pourquoi": "javascript:"
+  },
+  {
+   "fragment": "..c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U..",
+   "valide": false,
+   "pourquoi": "parties vides"
+  },
+  {
+   "fragment": "h1abc.inv1abc.c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2VjcmV0c2U.prince01.ZW1wcmVpbnRlZW1wcmVpbg",
+   "valide": false,
+   "pourquoi": "100 000 caractères ajoutés",
+   "ajout": "A",
+   "fois": 100000
+  },
+  {
+   "fragment": "a.",
+   "valide": false,
+   "pourquoi": "« a. » répété 50 000 fois",
+   "ajout": "a.",
+   "fois": 50000
+  }
+ ]
+}

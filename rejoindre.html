@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- L'invitation est dans l'adresse, après « # » : le navigateur ne l'envoie jamais au serveur. Cette page ne
+       charge rien d'autre qu'elle-même (ni police, ni script tiers, ni mesure d'audience) et n'envoie rien. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+  <meta name="referrer" content="no-referrer">
+  <title>Rejoindre un foyer — Ahome</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <div class="brand"><span class="lg" aria-hidden="true">A</span><b>Ahome</b></div>
+    <h1>Vous êtes invité·e à rejoindre un foyer</h1>
+
+    <noscript>
+      <p class="warn">Cette page a besoin de JavaScript pour lire l’invitation. Sinon : installez Ahome, puis copiez l’adresse de cette page et collez-la dans « Rejoindre un foyer ».</p>
+    </noscript>
+
+    <section id="incomplet" class="card" aria-labelledby="incomplet-titre" hidden>
+      <h2 id="incomplet-titre">Lien incomplet</h2>
+      <p class="warn" role="alert">Ce lien d’invitation est incomplet ou abîmé : il a peut-être été coupé en le copiant.</p>
+      <p>Demandez à la personne qui vous a invité·e de vous renvoyer le lien, puis ouvrez-le en entier.</p>
+    </section>
+
+    <section id="invitation" class="card" aria-labelledby="etapes" hidden>
+      <h2 id="etapes" class="visually-hidden">Trois étapes</h2>
+      <ol class="steps">
+        <li>
+          <h2>Télécharger et installer Ahome</h2>
+          <p class="hint">Déjà installée sur cet ordinateur ? Passez à l’étape 2.</p>
+          <a class="btn" href="https://github.com/princeraph/ahome-releases/releases/latest/download/Ahome-Setup.exe">Télécharger Ahome pour Windows</a>
+          <p class="note">L’installateur n’est pas signé. Si Windows affiche « Windows a protégé votre ordinateur » : <b>Informations complémentaires</b>, puis <b>Exécuter quand même</b>. Windows 10 ou 11, 64 bits.</p>
+        </li>
+        <li>
+          <h2>Ouvrir l’invitation dans Ahome</h2>
+          <p class="hint">Votre navigateur demandera peut-être d’ouvrir Ahome : acceptez. Ahome s’ouvre sur « Rejoindre un foyer », le lien déjà rempli ; rien n’est envoyé avant que vous continuiez.</p>
+          <a id="ouvrir" class="btn">Ouvrir dans Ahome</a>
+        </li>
+        <li>
+          <h2>Si rien ne s’ouvre</h2>
+          <p class="hint">Copiez le lien, ouvrez Ahome, choisissez « Rejoindre un foyer », puis collez-le.</p>
+          <button id="copier" type="button" class="btn ghost">Copier le lien</button>
+          <p id="copie-etat" class="hint" role="status"></p>
+        </li>
+      </ol>
+      <p class="hint">Ensuite, dans Ahome : votre prénom, votre propre phrase de récupération, puis un code à 6 chiffres à lire à la personne qui vous a invité·e.</p>
+    </section>
+  </main>
+  <script src="regle.js"></script>
+  <script src="rejoindre.js"></script>
+</body>
+</html>
