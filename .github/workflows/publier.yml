@@ -78,7 +78,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update -qq
-          sudo apt-get install -y -qq --no-install-recommends wine64 wine32:i386 p7zip-full > /dev/null
+          sudo apt-get install -y -qq --no-install-recommends wine wine64 wine32:i386 p7zip-full > /dev/null
           WINEDEBUG=-all wineboot --init
 
       - name: Dépendances
