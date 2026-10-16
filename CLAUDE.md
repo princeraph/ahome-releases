@@ -34,6 +34,12 @@ Dépôt public : minutes des exécuteurs standard gratuites. Garder `workflow_di
 `cancel-in-progress: false` (une publication coupée laisserait une version à moitié téléversée). Coût estimé en tête
 de chaque workflow.
 
+**Stockage Actions.** Aucun workflow ne dépose d'artefact : l'installateur part directement dans la Release, qui n'entre
+pas dans le quota d'artefacts. Garder ainsi. Si le dépôt repassait privé (quota de 500 Mo partagé, compté sur le mois) :
+pas d'`actions/upload-artifact` sauf nécessité, alors `retention-days: 1` et petits fichiers — jamais un installateur ni
+un build complet —, pas de gros cache, et rétention des artefacts réglée à 1 jour (Settings › Actions › General, fait par
+le propriétaire).
+
 ## Git
 
 Auteur `Claude <noreply@anthropic.com>` ; pas de lien de session dans les commits ; `Co-Authored-By` gardé.
