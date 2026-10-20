@@ -14,6 +14,12 @@
   if (!valide) return;
 
   var lien = AhomeLien.PREFIXE_APPLI + fragment;
+  // Un lien « appareil- » ajoute un ordinateur de plus à un membre déjà dans le foyer : ni prénom ni phrase à donner.
+  if (fragment.split('.')[1].indexOf('appareil-') === 0) {
+    document.getElementById('titre').textContent = 'Ajouter cet ordinateur à votre foyer';
+    document.getElementById('ensuite').textContent =
+      'Ensuite, dans Ahome : comparez les trois mots affichés avec l’écran de votre autre ordinateur.';
+  }
   document.getElementById('ouvrir').setAttribute('href', lien);
 
   var etat = document.getElementById('copie-etat');
