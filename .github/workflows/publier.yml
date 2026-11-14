@@ -5,6 +5,10 @@
 # Coût : ce dépôt est public, les minutes des exécuteurs GitHub standard y sont gratuites et ne comptent pas dans
 # le quota des dépôts privés. Estimation : ~30 min × 1 (Linux) × ~4 publications par mois ≈ 120 min/mois, non
 # facturées. Lancé à la main seulement (workflow_dispatch) : aucun envoi de branche ne le déclenche.
+# Fumée Windows (15 nov. 2026) : l'installateur LIVRÉ est installé en silence sur un poste Windows, puis l'appli
+# démarre deux fois (`tools/smoke.mjs`). La version naît en BROUILLON (invisible des mises à jour) et n'est rendue
+# publique que si la fumée passe. Coût : ~10-15 min Windows par publication, gratuites ici (dépôt public). Remplace la
+# fumée Windows de la CI du dépôt privé (passée à la main : plus aucune minute privée à chaque envoi sur main).
 #
 # Secrets attendus (Réglages du dépôt › Secrets and variables › Actions) :
 #   AHOME_SOURCE_REPO   « propriétaire/nom » du dépôt du code source
@@ -28,8 +32,10 @@ permissions:
   contents: write
 
 jobs:
-  publier:
+  construire:
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
     timeout-minutes: 60
     steps:
       - name: Pages de ce dépôt (règle du lien d'invitation)
@@ -62,14 +68,19 @@ jobs:
           fi
           echo "version=$version" >> "$GITHUB_OUTPUT"
 
-      - name: Refuser une version déjà publiée
+      - name: Refuser une version déjà publiée (un brouillon d'un essai raté est retiré)
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          if gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
-            echo "::error::La version v$VERSION existe déjà. Augmentez la version dans le code source."
-            exit 1
+          if draft=$(gh release view "v$VERSION" --repo "$GITHUB_REPOSITORY" --json isDraft --jq .isDraft 2>/dev/null); then
+            if [ "$draft" = "true" ]; then
+              echo "Brouillon v$VERSION d'un essai précédent : retiré."
+              gh release delete "v$VERSION" --repo "$GITHUB_REPOSITORY" --yes --cleanup-tag
+            else
+              echo "::error::La version v$VERSION existe déjà. Augmentez la version dans le code source."
+              exit 1
+            fi
           fi
 
       # NSIS sous Linux : wine 32 bits (le désinstallateur est généré en exécutant le stub 32 bits) ; 7z pour la
@@ -100,7 +111,7 @@ jobs:
         working-directory: source
         run: npm run package:win-depuis-linux -w @ahome/desktop
 
-      - name: Publier v${{ steps.version.outputs.version }}
+      - name: Brouillon v${{ steps.version.outputs.version }} (invisible des mises à jour tant que la fumée Windows n'est pas passée)
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ steps.version.outputs.version }}
@@ -108,6 +119,61 @@ jobs:
         run: |
           gh release create "v$VERSION" \
             --repo "$GITHUB_REPOSITORY" \
+            --draft \
             --title "Ahome $VERSION" \
             --notes "Installateur Windows d'Ahome $VERSION. Non signé : si Windows affiche « Windows a protégé votre ordinateur », cliquez sur Informations complémentaires, puis Exécuter quand même. Les appareils où Ahome est déjà installée se mettent à jour seuls." \
             Ahome-Setup.exe Ahome-Setup.exe.blockmap latest.yml
+
+  fumee-windows:
+    needs: construire
+    runs-on: windows-latest
+    timeout-minutes: 25
+    steps:
+      - name: Outil de fumée (seul fichier lu du code source)
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ secrets.AHOME_SOURCE_REPO }}
+          token: ${{ secrets.AHOME_SOURCE_TOKEN }}
+          ref: ${{ inputs.ref }}
+          path: source
+          persist-credentials: false
+          sparse-checkout: apps/desktop/tools
+          sparse-checkout-cone-mode: true
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Installateur livré (brouillon)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.construire.outputs.version }}
+        shell: bash
+        run: gh release download "v$VERSION" --repo "$GITHUB_REPOSITORY" --pattern Ahome-Setup.exe --dir installeur
+
+      - name: Installation silencieuse (par utilisateur, comme chez Prince et Olivia)
+        shell: pwsh
+        run: |
+          $p = Start-Process -FilePath installeur\Ahome-Setup.exe -ArgumentList '/S' -Wait -PassThru
+          if ($p.ExitCode -ne 0) { throw "Installateur : code $($p.ExitCode)" }
+          # Dossier par utilisateur d'electron-builder (%LOCALAPPDATA%\Programs\<nom>) : cherché, pas deviné.
+          $found = Get-ChildItem -Path (Join-Path $env:LOCALAPPDATA 'Programs') -Filter Ahome.exe -Recurse -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $found) { throw "Ahome.exe absent après l'installation (sous $env:LOCALAPPDATA\Programs)" }
+          $exe = $found.FullName
+          "Installé : $exe"
+          "AHOME_EXE=$exe" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
+      - name: Fumée (deux démarrages sur un dossier vierge)
+        shell: pwsh
+        run: node source/apps/desktop/tools/smoke.mjs $env:AHOME_EXE
+
+  publier:
+    needs: [construire, fumee-windows]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Rendre publique v${{ needs.construire.outputs.version }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.construire.outputs.version }}
+        run: gh release edit "v$VERSION" --repo "$GITHUB_REPOSITORY" --draft=false --latest

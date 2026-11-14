@@ -24,7 +24,9 @@ de synchro, un nom de famille, une donnée du foyer, un lien d’invitation rée
 
 1. Dans le code source : augmenter la version de l’appli (sinon la publication refuse).
 2. Ici : Actions › « Publier une version » › Run workflow (`ref` : `main` par défaut).
-3. Le workflow construit l’installateur depuis Linux, refuse si un contrôle échoue, puis crée la version.
+3. Le workflow construit l’installateur depuis Linux, refuse si un contrôle échoue, crée la version en **brouillon**,
+   l’installe en silence sur Windows et démarre l’appli deux fois (fumée) ; seulement alors la version devient publique.
+   Fumée rouge : le brouillon reste (invisible des mises à jour), retiré au prochain essai de la même version.
 
 Secrets attendus : `AHOME_SOURCE_REPO`, `AHOME_SOURCE_TOKEN` (lecture seule). Aucune commande ne les affiche.
 
