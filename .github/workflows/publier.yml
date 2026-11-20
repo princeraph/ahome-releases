@@ -85,12 +85,15 @@ jobs:
 
       # NSIS sous Linux : wine 32 bits (le désinstallateur est généré en exécutant le stub 32 bits) ; 7z pour la
       # vérification de l'installateur livré.
+      # Publication #41 (20 nov. 2026) : cette étape est restée suspendue 59 min 59 s (plafond du job atteint, rien publié).
+      # Plafond propre à l'étape : un blocage échoue en 10 min au lieu de manger l'heure ; `wineboot` borné à 3 min.
       - name: wine32 et 7z
+        timeout-minutes: 10
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update -qq
           sudo apt-get install -y -qq --no-install-recommends wine wine64 wine32:i386 p7zip-full > /dev/null
-          WINEDEBUG=-all wineboot --init
+          WINEDEBUG=-all timeout 180 wineboot --init
 
       - name: Dépendances
         working-directory: source
